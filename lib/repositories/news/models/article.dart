@@ -15,3 +15,5 @@ class Article {
   final bool readed;
   final String? description;
 }
+
+
