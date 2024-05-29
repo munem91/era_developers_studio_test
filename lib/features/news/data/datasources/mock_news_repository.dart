@@ -1,4 +1,4 @@
-import 'package:era_developers_test_flutter/repositories/news/repository.dart';
+import '../../domain/domain.dart';
 
 class MockNewsRepository implements AbstractNewsRepository {
   @override
