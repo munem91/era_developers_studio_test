@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import '../../domain/domain.dart';
+import '../widgets/widgets.dart';
 
 @RoutePage()
 class NewsDetailPage extends StatelessWidget {
@@ -29,97 +30,75 @@ class NewsDetailPage extends StatelessWidget {
         }
 
         final article = snapshot.data!;
-        final title = _addLineBreakBeforeLastWord(article.title);
+        final title = addLineBreakBeforeLastTwoWords(article.title);
 
         return Scaffold(
-          body: SafeArea(
-            child: Stack(
-              children: [
-                SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(
-                        children: [
-                          SizedBox(
-                            height: 400,
-                            width: double.infinity,
-                            child: Image.network(
-                              article.imageUrl,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(Icons.error),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 16.0,
-                            left: 16.0,
-                            right: 16.0,
-                            child: Container(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                title,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayLarge
-                                    ?.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  shadows: [
-                                    const Shadow(
-                                      blurRadius: 10,
-                                      color: Colors.black,
-                                      offset: Offset(0, 0),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: IconButton(
+                icon: Image.asset('assets/icons/back_two.png'),
+                color: Colors.white,
+                onPressed: () {
+                  context.router.pop();
+                },
+              ),
+            ),
+          ),
+          body: Stack(
+            children: [
+              Column(
+                children: [
+                  Container(
+                    height: 450,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(article.imageUrl),
+                        fit: BoxFit.cover,
+                        onError: (context, error) => const Icon(Icons.error),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 10),
-                            Text(
-                              article.description?.replaceAll('\n', '\n\n') ??
-                                  '',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
+                    ),
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      padding: const EdgeInsets.only(
+                        bottom: 30.0,
+                        left: 40,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.0),
+                        gradient: const LinearGradient(
+                          colors: [Colors.black54, Colors.transparent],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
                         ),
                       ),
-                    ],
+                      child: Text(title,
+                          style: Theme.of(context).textTheme.displayMedium),
+                    ),
                   ),
-                ),
-                Positioned(
-                  top: 40.0,
-                  left: 16.0,
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios),
-                    color: Colors.white,
-                    onPressed: () {
-                      context.router.pop();
-                    },
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        article.description
+                                ?.split('\n')
+                                .map((line) => line.trimLeft())
+                                .join('\n\n') ??
+                            '',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
         );
       },
     );
-  }
-
-  String _addLineBreakBeforeLastWord(String text) {
-    List<String> words = text.split(' ');
-    if (words.length > 1) {
-      String lastWord = words.removeLast();
-      return words.join(' ') + '\n' + lastWord;
-    }
-    return text;
   }
 }

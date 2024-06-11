@@ -13,12 +13,12 @@ class NewsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
+        elevation: 0.0,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
+              icon: Image.asset('assets/icons/back.png'),
+              padding: const EdgeInsets.only(right: 60.0),
               onPressed: () {
                 context.router.pop();
               },
@@ -49,8 +49,9 @@ class NewsPage extends StatelessWidget {
                             .add(const NewsEvent.markAllRead());
                       }
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          right: 8.0), // Увеличить отступ справа
                       child: Center(
                         child: Text(
                           allRead ? 'Mark all unread' : 'Mark all read',
@@ -112,17 +113,11 @@ class NewsPage extends StatelessWidget {
                       );
                     },
                   ),
-                  const Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-                    child: Text(
-                      'Latest news',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 16.0),
+                    child: Text('Latest news',
+                        style: Theme.of(context).textTheme.displayLarge),
                   ),
                   ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),

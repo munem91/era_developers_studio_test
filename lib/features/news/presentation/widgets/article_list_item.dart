@@ -6,12 +6,13 @@ import '../../domain/domain.dart';
 import '../../router/app_router.dart';
 import '../presentation.dart';
 
-
 class ArticleListItem extends StatelessWidget {
   final Article article;
   final bool isFeatured;
 
-  const ArticleListItem({Key? key, required this.article, this.isFeatured = false}) : super(key: key);
+  const ArticleListItem(
+      {Key? key, required this.article, this.isFeatured = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,16 +55,16 @@ class ArticleListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (article.readed) ...[
-                    const Row(
+                    Row(
                       children: [
-                        Icon(Icons.check, color: Colors.green, size: 16),
-                        SizedBox(width: 4),
+                        const Icon(Icons.check, color: Colors.green, size: 16),
+                        const SizedBox(width: 4),
                         Text(
                           'This news read',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.green,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    color: Colors.green,
+                                  ),
                         ),
                       ],
                     ),
@@ -74,16 +75,16 @@ class ArticleListItem extends StatelessWidget {
                             .read<NewsBloc>()
                             .add(NewsEvent.markUnread(id: article.id));
                       },
-                      child: const Row(
+                      child: Row(
                         children: [
-                          Icon(Icons.undo, color: Colors.red, size: 16),
-                          SizedBox(width: 4),
+                          const Icon(Icons.undo, color: Colors.red, size: 16),
+                          const SizedBox(width: 4),
                           Text(
                             'Make unread',
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              color: Colors.red,
-                            ),
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      color: Colors.red,
+                                    ),
                           ),
                         ],
                       ),
@@ -91,11 +92,8 @@ class ArticleListItem extends StatelessWidget {
                     const SizedBox(height: 8.0),
                   ],
                   Text(
-                    article.title,
-                    style: const TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    getFormattedTitle(article.title),
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   if (!isFeatured) ...[
                     const SizedBox(height: 8.0),

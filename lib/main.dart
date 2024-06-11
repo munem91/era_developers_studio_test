@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:era_developers_test_flutter/injection_container.dart' as di;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/news/presentation/presentation.dart';
